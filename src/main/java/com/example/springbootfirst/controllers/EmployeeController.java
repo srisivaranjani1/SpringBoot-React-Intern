@@ -2,8 +2,9 @@ package com.example.springbootfirst.controllers;
 
 
 import com.example.springbootfirst.models.Employee;
-import com.example.springbootfirst.services.HelloWorldService;
+import com.example.springbootfirst.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,8 +13,9 @@ import java.util.List;
 public class EmployeeController {
 
     @Autowired
-    private HelloWorldService hws;
+    private EmployeeService employeeService;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/")
     public String route(){
         return "Welcome to SpringBoot Security";
@@ -21,30 +23,30 @@ public class EmployeeController {
 
     @GetMapping("/employee")
     public List<Employee> getMethod(){
-        return hws.getMethod();
+        return employeeService.getMethod();
     }
 
     @GetMapping("/employee/{empID}")
     public Employee getEmployeeById(@PathVariable int empID){
-        return hws.getEmployeeById(empID);
+        return employeeService.getEmployeeById(empID);
     }
 
     @GetMapping("/employee/job/{job}")
     public List<Employee> getEmployeeByJob(@PathVariable String job){
-        return hws.getEmployeeByJob(job);
+        return employeeService.getEmployeeByJob(job);
     }
 
     @PostMapping("/employee")
     public String postMethod(@RequestBody Employee employee){
 //        Employee employee = new Employee(5,"Sivagami", "Business");
-        return hws.addEmployee(employee);
+        return employeeService.addEmployee(employee);
     }
     @PutMapping("/employee")
     public String putMethod(@RequestBody Employee employee){
-        return hws.updateEmployee(employee);
+        return employeeService.updateEmployee(employee);
     }
     @DeleteMapping("/employee/{empID}")
     public String deleteMethod(@PathVariable int empID){
-        return hws.deleteEmployeeById(empID);
+        return employeeService.deleteEmployeeById(empID);
     }
 }
