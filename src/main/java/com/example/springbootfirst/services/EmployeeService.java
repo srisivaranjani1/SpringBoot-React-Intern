@@ -4,15 +4,11 @@ import com.example.springbootfirst.models.Employee;
 import com.example.springbootfirst.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 @Service
-public class HelloWorldService {
+public class EmployeeService {
     @Autowired
     EmployeeRepository empRepo;
 
@@ -22,6 +18,11 @@ public class HelloWorldService {
 
     public Employee getEmployeeById(int empID) {
         return empRepo.findById(empID).orElse(new Employee());
+    }
+
+
+    public List<Employee> getEmployeeByJob(String job) {
+        return empRepo.findByJob(job);
     }
 
     public String addEmployee(Employee employee) {
@@ -38,4 +39,5 @@ public class HelloWorldService {
         empRepo.deleteById(empID);
         return "Employee Deleted Successfully!!!";
     }
+
 }

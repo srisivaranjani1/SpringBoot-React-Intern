@@ -7,35 +7,43 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
-@RequestMapping("/employee")
-public class HelloWorldController {
+public class EmployeeController {
 
     @Autowired
     private HelloWorldService hws;
 
-    @GetMapping
+    @GetMapping("/")
+    public String route(){
+        return "Welcome to SpringBoot Security";
+    }
+
+    @GetMapping("/employee")
     public List<Employee> getMethod(){
         return hws.getMethod();
     }
 
-    @GetMapping("/{empID}")
+    @GetMapping("/employee/{empID}")
     public Employee getEmployeeById(@PathVariable int empID){
         return hws.getEmployeeById(empID);
     }
 
-    @PostMapping
+    @GetMapping("/employee/job/{job}")
+    public List<Employee> getEmployeeByJob(@PathVariable String job){
+        return hws.getEmployeeByJob(job);
+    }
+
+    @PostMapping("/employee")
     public String postMethod(@RequestBody Employee employee){
 //        Employee employee = new Employee(5,"Sivagami", "Business");
         return hws.addEmployee(employee);
     }
-    @PutMapping
+    @PutMapping("/employee")
     public String putMethod(@RequestBody Employee employee){
         return hws.updateEmployee(employee);
     }
-    @DeleteMapping("/{empID}")
+    @DeleteMapping("/employee/{empID}")
     public String deleteMethod(@PathVariable int empID){
         return hws.deleteEmployeeById(empID);
     }
