@@ -15,12 +15,13 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @GetMapping("/")
     public String route(){
         return "Welcome to SpringBoot Security";
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @GetMapping("/employee")
     public List<Employee> getMethod(){
         return employeeService.getMethod();
@@ -49,4 +50,6 @@ public class EmployeeController {
     public String deleteMethod(@PathVariable int empID){
         return employeeService.deleteEmployeeById(empID);
     }
+
+
 }

@@ -21,10 +21,12 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SpringConfiguration {
 
   @Autowired
-  RegisterService registerService;
-
-  @Autowired
   CustomUserDetailsService customUserDetailsService;
+
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
 
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -34,30 +36,7 @@ public class SpringConfiguration {
                     .requestMatchers("/api/auth/**").permitAll()
                     .anyRequest().authenticated()
             )
-            .httpBasic(Customizer.withDefaults());  // This is required for Postman Basic Auth
+            .httpBasic(Customizer.withDefaults());
     return http.build();
   }
-
-
-
-
-//  @Bean
-//  public UserDetailsService userDetailsService() {
-//    return new InMemoryUserDetailsManager(); // Empty = no default user
-//  }
-
-//  @Bean
-//  UserDetailsService userDetailsService(){
-//    UserDetails admin = User.builder()
-//            .username("admin")
-//            .password(passwordEncoder().encode("admin"))
-//            .roles("ADMIN")
-//            .build();
-//    UserDetails ksp = User.builder()
-//            .username("ksp")
-//            .password(passwordEncoder().encode("ksp@1009"))
-//            .roles("USER")
-//            .build();
-//    return new InMemoryUserDetailsManager(admin,ksp);
-//  }
 }
