@@ -10,6 +10,8 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -38,5 +40,20 @@ public class SpringConfiguration {
             )
             .httpBasic(Customizer.withDefaults());
     return http.build();
+  }
+
+  @Bean
+  UserDetailsService userDetails(){
+    UserDetails admin = User.builder()
+            .username("admin")
+            .password(passwordEncoder().encode("admin"))
+            .roles("ADMIN")
+            .build();
+    UserDetails sri = User.builder()
+            .username("sri")
+            .password(passwordEncoder().encode("mani"))
+            .roles("USER")
+            .build();
+    return new InMemoryUserDetailsManager(admin,sri);
   }
 }
