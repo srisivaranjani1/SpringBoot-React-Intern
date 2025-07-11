@@ -10,9 +10,12 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDetailsDto {
+  private int empId;
   private String name;
   private String userName;
   private String email;
   private String password;
   private Set<String> roleNames;
+
+
 }
